@@ -20,6 +20,9 @@ model CareerProfile {
   updatedAt         DateTime @updatedAt
   skills Skill[]
   projects Project[]
+  experiences Experience[]
+  education Education[]
+  careerPreference CareerPreference?
 }
 
 enum SkillCategory {
@@ -62,4 +65,58 @@ model Project {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   skills Skill[]
+}
+
+model Experience {
+  id          String        @id @default(uuid())
+  company     String
+  position    String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean       @default(false)
+  profileId   String
+  profile     CareerProfile @relation(fields: [profileId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Education {
+  id          String        @id @default(uuid())
+  institution String
+  course      String
+  degree      String?
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  profileId   String
+  profile     CareerProfile @relation(fields: [profileId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum ExperienceLevel {
+  INTERN
+  JUNIOR
+  MID_LEVEL
+  SENIOR
+}
+
+enum RemotePreference {
+  REMOTE
+  HYBRID
+  ONSITE
+  ANY
+}
+
+model CareerPreference {
+  id                 String           @id @default(uuid())
+  desiredRole        String
+  experienceLevel    ExperienceLevel
+  remotePreference   RemotePreference
+  locationPreference String?
+  profileId          String           @unique
+  profile            CareerProfile    @relation(fields: [profileId], references: [id])
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
 }
