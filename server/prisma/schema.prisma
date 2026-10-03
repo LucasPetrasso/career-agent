@@ -19,6 +19,7 @@ model CareerProfile {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   skills Skill[]
+  projects Project[]
 }
 
 enum SkillCategory {
@@ -45,4 +46,20 @@ model Skill {
   profile   CareerProfile @relation(fields: [profileId], references: [id])
 
   @@unique([profileId, name])
+
+  projects Project[]
+}
+
+model Project {
+  id            String        @id @default(uuid())
+  name          String
+  description   String?
+  repositoryUrl String?
+  liveUrl       String?
+  featured      Boolean       @default(false)
+  profileId     String
+  profile       CareerProfile @relation(fields: [profileId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  skills Skill[]
 }
