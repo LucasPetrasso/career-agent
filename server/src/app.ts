@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { corsOptions } from './config/cors.js';
 import careerProfileRouter from "./routes/careerProfile.routes.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.get('/api/health', (request, response) => {
     message: 'Career Agent API is running',
   });
 });
+
+app.use(errorHandler);
 
 export default app;
