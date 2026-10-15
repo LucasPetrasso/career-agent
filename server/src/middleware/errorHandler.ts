@@ -22,6 +22,14 @@ export function errorHandler(
     return;
   }
 
+  if (error.message === "Skill already exists") {
+  response.status(409).json({
+    message: error.message
+  });
+
+  return;
+}
+
   response.status(500).json({
     message: "Internal server error"
   });
