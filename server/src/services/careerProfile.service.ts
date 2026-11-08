@@ -1,24 +1,8 @@
 import { prisma } from "../config/prisma.js";
-
-interface CreateCareerProfileData {
-  name: string;
-  professionalTitle: string;
-  bio?: string;
-  location?: string;
-  linkedinUrl?: string;
-  githubUrl?: string;
-  portfolioUrl?: string;
-}
-
-interface UpdateCareerProfileData {
-  name?: string;
-  professionalTitle?: string;
-  bio?: string;
-  location?: string;
-  linkedinUrl?: string;
-  githubUrl?: string;
-  portfolioUrl?: string;
-}
+import type {
+  CreateCareerProfileInput,
+  UpdateCareerProfileInput
+} from "../schemas/careerProfile.schema.js";
 
 export async function getCareerProfile() {
   const profile = await prisma.careerProfile.findFirst();
@@ -27,7 +11,7 @@ export async function getCareerProfile() {
 }
 
 export async function createCareerProfile(
-  data: CreateCareerProfileData
+  data: CreateCareerProfileInput
 ) {
   const existingProfile = await prisma.careerProfile.findFirst();
 
@@ -43,7 +27,7 @@ export async function createCareerProfile(
 }
 
 export async function updateCareerProfile(
-  data: UpdateCareerProfileData
+  data: UpdateCareerProfileInput
 ) {
   const existingProfile = await prisma.careerProfile.findFirst();
 

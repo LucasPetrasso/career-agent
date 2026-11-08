@@ -1,6 +1,9 @@
-import { SkillCategory, SkillLevel } from "../generated/prisma/enums.js";
 import { prisma } from "../config/prisma.js";
-import type { CreateSkillInput } from "../schemas/skill.schema.js";
+import type {
+  CreateSkillInput,
+  UpdateSkillInput
+} from "../schemas/skill.schema.js";
+
 
 export async function getSkills() {
   const skills = await prisma.skill.findMany();
@@ -33,6 +36,42 @@ if (existingSkill) {
       ...data,
       profileId: profile.id
     }
+  });
+
+  return skill;
+}
+
+export async function updateSkill(id: string, data: UpdateSkillInput) {
+  const existingSkill = await prisma.skill.findUnique({
+    where: {
+      id
+    }
+  });
+
+  if (!existingSkill) {
+    throw new Error("Skill not found");
+  }
+
+  if (data.name !== undefined && data.name !== existingSkill.name) {
+    const duplicateSkill = await prisma.skill.findUnique({
+      where: {
+        profileId_name: {
+          profileId: existingSkill.profileId,
+          name: data.name
+        }
+      }
+    });
+
+    if (duplicateSkill) {
+      throw new Error("Skill already exists");
+    }
+  }
+
+  const skill = await prisma.skill.update({
+    where: {
+      id
+    },
+    data
   });
 
   return skill;

@@ -7,4 +7,6 @@ export const createSkillSchema = z.object({
   level: z.enum(SkillLevel)
 });
 
+export const updateSkillSchema = createSkillSchema.partial();
 export type CreateSkillInput = z.infer<typeof createSkillSchema>;
+export type UpdateSkillInput = z.infer<typeof updateSkillSchema>;
