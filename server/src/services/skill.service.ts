@@ -76,3 +76,23 @@ export async function updateSkill(id: string, data: UpdateSkillInput) {
 
   return skill;
 }
+
+export async function deleteSkill(id: string) {
+  const existingSkill = await prisma.skill.findUnique({
+    where: {
+      id
+    }
+  });
+
+  if (!existingSkill) {
+    throw new Error("Skill not found");
+  }
+
+  const skill = await prisma.skill.delete({
+    where: {
+      id
+    }
+  });
+
+  return skill;
+}

@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import {
   createSkill,
+  deleteSkill,
   getSkills,
   updateSkill
 } from "../services/skill.service.js";
@@ -36,6 +37,20 @@ export async function updateSkillController(
 ) {
   try {
     const skill = await updateSkill(request.params.id, request.body);
+
+    response.status(200).json(skill);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteSkillController(
+  request: Request<{ id: string }>,
+  response: Response,
+  next: NextFunction
+) {
+  try {
+    const skill = await deleteSkill(request.params.id);
 
     response.status(200).json(skill);
   } catch (error) {

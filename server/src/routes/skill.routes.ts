@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createSkillController,
+  deleteSkillController,
   getSkillsController,
   updateSkillController
 } from "../controllers/skill.controller.js";
@@ -23,5 +24,6 @@ skillRouter.patch(
   validateRequest(updateSkillSchema),
   updateSkillController
 );
+skillRouter.delete("/:id", deleteSkillController);
 
 export default skillRouter;
