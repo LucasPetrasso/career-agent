@@ -22,6 +22,22 @@ export function errorHandler(
     return;
   }
 
+  if (error.message === "Project not found") {
+    response.status(404).json({
+      message: error.message
+    });
+
+    return;
+  }
+
+  if (error.message === "Skill not found") {
+    response.status(404).json({
+      message: error.message
+    });
+
+    return;
+  }
+
   if (error.message === "Skill already exists") {
   response.status(409).json({
     message: error.message
